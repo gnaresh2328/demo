@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Oops
  */
-public class admininvoice extends httpServlet {
+public class register extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,21 +36,25 @@ public class admininvoice extends httpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           String name = request.getParameter("name");
-          String rfees = request.getParameter("rfess");
-           String time = request.getParameter("time");
-          String mfees = request.getParameter("mfess");
-	  String lastname = request.getParameter("lastname");
-
+            String name = request.getParameter("name");
           
-          MyDB db = new MyDB();
+           String mob = request.getParameter("mob");
+           String add = request.getParameter("add");
+           String email = request.getParameter("email");
+           String pass = request.getParameter("pass");
+           
+           MyDB db = new MyDB();
            Connection con =db.getCon();
            Statement stmt = con.createStatement();
+           out.println("register sucess");
            
-           stmt.executeUpdate("insert into invoice(name,rfees,mfess,time,lastname)values('"+name+"','"+rfees+"','"+mfees+"','"+time+","+lastname+"')");
-           out.println("data is inserted");
+        stmt.executeUpdate("insert into sregister(name,mobile,address,email,password)values('"+name+"','"+mob+"','"+add+"','"+email+"','"+pass+"') ");
+           
+           out.println("register sucess");
+          /*  String redirectedPage = "/parentPage";
+          response.sendRedirect("registrationsuccess.jsp");*/
         } catch (SQLException ex) {
-            Logger.getLogger(admininvoice.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(register.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

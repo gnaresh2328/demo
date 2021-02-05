@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Oops
  */
-public class admininvoice extends httpServlet {
+public class allot extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,21 +36,17 @@ public class admininvoice extends httpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           String name = request.getParameter("name");
-          String rfees = request.getParameter("rfess");
-           String time = request.getParameter("time");
-          String mfees = request.getParameter("mfess");
-	  String lastname = request.getParameter("lastname");
-
+          String rno = request.getParameter("rno");
+          String mess = request.getParameter("mess");
           
           MyDB db = new MyDB();
            Connection con =db.getCon();
            Statement stmt = con.createStatement();
            
-           stmt.executeUpdate("insert into invoice(name,rfees,mfess,time,lastname)values('"+name+"','"+rfees+"','"+mfees+"','"+time+","+lastname+"')");
+           stmt.executeUpdate("insert into allot (rno,mname)values('"+rno+"','"+mess+"')");
            out.println("data is inserted");
         } catch (SQLException ex) {
-            Logger.getLogger(admininvoice.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(allot.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

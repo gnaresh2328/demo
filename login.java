@@ -7,6 +7,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -15,12 +16,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Oops
  */
-public class admininvoice extends httpServlet {
+public class login extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,21 +38,38 @@ public class admininvoice extends httpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           String name = request.getParameter("name");
-          String rfees = request.getParameter("rfess");
-           String time = request.getParameter("time");
-          String mfees = request.getParameter("mfess");
-	  String lastname = request.getParameter("lastname");
-
+          String email = request.getParameter("email");
           
-          MyDB db = new MyDB();
+           String bhu = request.getParameter("bhu");
+           
+           String pass = request.getParameter("pass");
+           
+           MyDB db = new MyDB();
            Connection con =db.getCon();
            Statement stmt = con.createStatement();
-           
-           stmt.executeUpdate("insert into invoice(name,rfees,mfess,time,lastname)values('"+name+"','"+rfees+"','"+mfees+"','"+time+","+lastname+"')");
-           out.println("data is inserted");
+           if(bhu.equals("student"))
+           {
+           ResultSet rs = stmt.executeQuery("select sid,email,password from sregister where email = '"+email+"' and password = '"+pass+"'"); 
+           rs.next();
+           String n = rs.getString("sid");
+           HttpSession session=request.getSession();  
+           session.setAttribute("uname",n);
+          String redirectedPage = "/parentPage";
+          response.sendRedirect("welcome.jsp");
+           }
+          
+        
+           if(bhu.equals("admin")){
+           ResultSet rs1 = stmt.executeQuery("select id,email,password from admin where email = '"+email+"' and password = '"+pass+"'"); 
+           rs1.next();
+            
+          response.sendRedirect("admin.jsp");
+        }
+       
+            
+            
         } catch (SQLException ex) {
-            Logger.getLogger(admininvoice.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
