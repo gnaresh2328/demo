@@ -80,7 +80,7 @@ public class allot extends HttpServlet {
     }
 
     /**
-     * Returns a short description of the servlet.
+`:wq     * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
      */
